@@ -13,10 +13,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
-        <!-- 强制预留状态栏空间，防止遮挡 -->
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:statusBarColor">#000000</item>
     </style>
 
 
