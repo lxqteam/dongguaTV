@@ -106,8 +106,9 @@ async function fetchChineseTitleFromTMDB(englishTitle) {
     if (!TMDB_API_KEY) return [];
 
     // 构建 TMDB API 基础 URL（支持代理）
+    // 注意：Cloudflare Worker 代理路径格式为 /api/3/...
     const TMDB_BASE = TMDB_PROXY_URL
-        ? TMDB_PROXY_URL.replace(/\/$/, '')  // 移除末尾斜杠
+        ? `${TMDB_PROXY_URL.replace(/\/$/, '')}/api`  // 移除末尾斜杠并添加 /api
         : 'https://api.themoviedb.org';
 
     try {
@@ -790,9 +791,10 @@ app.get('/api/tmdb-proxy', async (req, res) => {
 
     try {
         // 优先使用 TMDB_PROXY_URL 代理，没有配置则直连
+        // 注意：Cloudflare Worker 代理路径格式为 /api/3/...
         const TMDB_PROXY_URL = process.env['TMDB_PROXY_URL'];
         const TMDB_BASE = TMDB_PROXY_URL
-            ? `${TMDB_PROXY_URL.replace(/\/$/, '')}/3`  // 移除末尾斜杠并添加 /3
+            ? `${TMDB_PROXY_URL.replace(/\/$/, '')}/api/3`  // 移除末尾斜杠并添加 /api/3
             : 'https://api.themoviedb.org/3';
 
         const response = await axios.get(`${TMDB_BASE}${tmdbPath}`, {
